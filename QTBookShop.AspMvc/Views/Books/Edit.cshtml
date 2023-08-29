@@ -1,0 +1,82 @@
+﻿@model QTBookShop.AspMvc.Models.App.Book
+
+@{
+	ViewData["Title"] = "Edit";
+	var addCategory = new SelectList(Model.Categories, "Id", "Name");
+}
+
+<h1>Edit</h1>
+@Html.PartialAsync("_ErrorView", ViewBag.Error as string);
+<h4>Book</h4>
+<hr />
+<div class="row">
+	<div class="col-md-4">
+		<form asp-action="Edit">
+			<input asp-for="Id" type="hidden" />
+			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+			<div class="form-group">
+				<label asp-for="AuthorId" class="control-label"></label>
+				<input asp-for="AuthorId" class="form-control" />
+				<span asp-validation-for="AuthorId" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Title" class="control-label"></label>
+				<input asp-for="Title" class="form-control" />
+				<span asp-validation-for="Title" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Description" class="control-label"></label>
+				<input asp-for="Description" class="form-control" />
+				<span asp-validation-for="Description" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Price" class="control-label"></label>
+				<input asp-for="Price" class="form-control" />
+				<span asp-validation-for="Price" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Sale" class="control-label"></label>
+				<input asp-for="Sale" class="form-control" />
+				<span asp-validation-for="Sale" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<input type="submit" value="Save" class="btn btn-primary" />
+			</div>
+		</form>
+	</div>
+</div>
+
+<form asp-action="AddCategory" method="get">
+	<input name="bookId" value="@Model.Id" type="hidden" />
+	@Html.DropDownList("categoryId", addCategory, new {@class="form-select"})
+	<input type="submit" value="Save" class="btn btn-primary" />
+</form>
+
+@if (Model.Categories.Any())
+{
+	<h5>Categories</h5>
+	@foreach (var category in Model.Categories)
+	{
+		<dl class="row">
+			<dd class="col-sm-10">
+				@category.Name
+			</dd>
+			<dd class="col-sm-4">
+				@category.Description
+			</dd>
+			<dd class="col-sm-4">
+				@Html.ActionLink("-", "RemoveCategory", new {bookId = Model.Id, categoryId = category.Id}, new {@class="btn btn-sm btn-danger"});
+			</dd>
+		</dl>
+	}
+}
+
+<div>
+	<a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
+}
