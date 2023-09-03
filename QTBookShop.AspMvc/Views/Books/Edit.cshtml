@@ -49,7 +49,7 @@
 <form asp-action="AddCategory" method="get">
 	<input name="bookId" value="@Model.Id" type="hidden" />
 	@Html.DropDownList("categoryId", addCategory, new {@class="form-select"})
-	<input type="submit" value="Save" class="btn btn-primary" />
+	<input type="submit" value="Add" class="btn btn-primary" />
 </form>
 
 @if (Model.Categories.Any())
